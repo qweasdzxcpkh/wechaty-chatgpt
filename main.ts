@@ -72,7 +72,7 @@ const get_chatgpt_response = async (text: string, contact: unknown, room_topic: 
 
 bot.on('message', async function (msg) {
   const contact = msg.talker()
-  const text = msg.text()
+  let text = msg.text()
   const room = msg.room()
 
   //   if (msg.self()) {
@@ -80,7 +80,8 @@ bot.on('message', async function (msg) {
   //   }
 
   if (room) {
-    if (/#gpt/.test(text)) {
+    if (/#gpt/.test(text) || /@芭比qq秀/.test(text)) {
+      text = text.replace('#gpt', '').replace('@芭比qq秀', '')
       const topic = await room.topic()
       const target_room = await bot.Room.find({ topic })
       if (target_room) {
